@@ -1,0 +1,272 @@
+//
+//  Matrix.swift
+//  Matrix
+//
+//  Created by Dmytro Durda on 11/10/2019.
+//  Copyright © 2019 Star. All rights reserved.
+//
+
+import Foundation
+
+struct Matrix<Element: Any> where Element: Equatable {
+    
+    let rows: Int
+    let columns: Int
+    private(set) var grid: [Element]
+    
+    // MARK: - Initializer
+    
+    init() {
+        self.rows = 0
+        self.columns = 0
+        self.grid = []
+    }
+    
+    init(rows: Int, columns: Int, repeating repeatedValue: Element) {
+        guard rows >= .zero && columns >= .zero else {
+            fatalError("Fatal error: Can't construct Matrix with rows and columns count < 0")
+        }
+        
+        if rows == .zero || columns == .zero {
+            self.rows = 0
+            self.columns = 0
+            self.grid = []
+            return
+        }
+        
+        self.rows = rows
+        self.columns = columns
+        self.grid = Array(repeating: repeatedValue, count: rows * columns)
+    }
+    
+    init(_ data: [[Element]]) {
+        guard data.allSatisfy({ $0.count == data.first?.count }) else {
+            fatalError("All rows must have the same count of items")
+        }
+        
+        self.rows = data.count
+        self.columns = data.first?.count ?? 0
+        self.grid = []
+        data.forEach { self.grid.append(contentsOf: $0) }
+    }
+    
+    init(rowVector: [Element]) {
+        self.rows = 1
+        self.columns = rowVector.count
+        self.grid = rowVector
+    }
+    
+    init(columnVector: [Element]) {
+        self.rows = columnVector.count
+        self.columns = 1
+        self.grid = columnVector
+    }
+    
+    // MARK: - Subscript
+    
+    subscript(row: Int, column: Int) -> Element {
+        get {
+            guard indexIsValid(row: row, column: column) else {
+                fatalError("Index out of range")
+            }
+            
+            return grid[(row * columns) + column]
+        }
+        set {
+            guard indexIsValid(row: row, column: column) else {
+                fatalError("Index out of range")
+            }
+            
+            grid[(row * columns) + column] = newValue
+        }
+    }
+    
+    subscript(index: MatrixIndex) -> Element {
+        get {
+            guard indexIsValid(index) else {
+                fatalError("Index out of range")
+            }
+            
+            return grid[(index.row * columns) + index.column]
+        }
+        set {
+            guard indexIsValid(index) else {
+                fatalError("Index out of range")
+            }
+            
+            grid[(index.row * columns) + index.column] = newValue
+        }
+    }
+    
+    // MARK: - Accessors
+    
+    var first: Element? {
+        if indexIsValid(startIndex) {
+            return self[startIndex]
+        }
+        
+        return nil
+    }
+    
+    var last: Element? {
+        if indexIsValid(endIndex) {
+            return self[endIndex]
+        }
+        
+        return nil
+    }
+    
+    func first(where predicate: (Element) throws -> Bool) rethrows -> Element? {        
+        return try grid.first(where: predicate)
+    }
+    
+    func last(where predicate: (Element) throws -> Bool) rethrows -> Element? {
+        return try grid.last(where: predicate)
+    }
+    
+    var rowVectors: [[Element]] {
+        var rowVectors = [[Element]]()
+        
+        for row in 0..<rows {
+            var rowVector = [Element]()
+            
+            for column in 0..<columns {
+                rowVector.append(self[row, column])
+            }
+            
+            rowVectors.append(rowVector)
+        }
+        
+        return rowVectors
+    }
+    
+    var columnVectors: [[Element]] {
+        var columnVectors = [[Element]]()
+        
+        for column in 0..<columns {
+            var columnVector = [Element]()
+            
+            for row in 0..<rows {
+                columnVector.append(self[row, column])
+            }
+            
+            columnVectors.append(columnVector)
+        }
+        
+        return columnVectors
+    }
+    
+    func rowVector(at row: Int) -> [Element] {
+        return rowVectors[row]
+    }
+    
+    func columnVector(at column: Int) -> [Element] {
+        return columnVectors[column]
+    }
+    
+    // MARK: - Index
+    
+    func indexIsValid(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    
+    func indexIsValid(_ index: MatrixIndex) -> Bool {
+        return indexIsValid(row: index.row, column: index.column)
+    }
+    
+    var startIndex: MatrixIndex {
+        return MatrixIndex(row: 0, column: 0)
+    }
+    
+    var endIndex: MatrixIndex {
+        return MatrixIndex(row: rows, column: columns)
+    }
+    
+    var indices: [MatrixIndex] {
+        var indices = [MatrixIndex]()
+        
+        for row in 0..<rows {
+            for column in 0..<columns {
+                indices.append(MatrixIndex(row: row, column: column))
+            }
+        }
+        
+        return indices
+    }
+    
+    func indices(for value: Element) -> [MatrixIndex] {
+        return indices.filter({ self[$0] == value })
+    }
+    
+    func enumerated() -> EnumeratedMatrix<Element> {
+        return EnumeratedMatrix(self)
+    }
+    
+    // TODO: - RevercedIndex and RevercedMatrix
+    
+//    func reverced() -> RevercedMatrix<Element> {
+//
+//    }
+
+    func firstIndex(of value: Element) -> MatrixIndex? {
+        for (offset, element) in self.enumerated() {
+            if value == element {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+
+    func firstIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
+        for (offset, element) in self.enumerated() {
+            if try predicate(element) {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+    
+    // TODO: - lastIndex
+
+//    func lastIndex(of value: Element) -> MatrixIndex? {
+//
+//    }
+//
+//    func lastIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
+//
+//    }
+    
+    // MARK: - Shuffle
+    
+    mutating func shuffle() {
+        grid.shuffle()
+    }
+    
+    func shufled() -> Self {
+        var matrix = self
+        matrix.shuffle()
+        return matrix
+    }
+    
+}
+
+
+// MARK: - Logs
+
+extension Matrix: CustomStringConvertible where Element: LosslessStringConvertible {
+    
+    var description: String {
+        let rowVectorStrings = rowVectors.map({ rowVector -> String in
+            var rowVectorString = "["
+            rowVectorString.append(rowVector.map({ String($0) }).joined(separator: ", "))
+            rowVectorString.append("]")
+
+            return rowVectorString
+        })
+        
+        return rowVectorStrings.joined(separator: "\n")
+    }
+    
+}
