@@ -9,12 +9,11 @@
 import Foundation
 
 struct Matrix<Element: Any> where Element: Equatable {
-    
-    let rows: Int
-    let columns: Int
+    private(set) var rows: Int
+    private(set) var columns: Int
     private(set) var grid: [Element]
     
-    // MARK: - Initializer
+    // MARK: - Init
     
     init() {
         self.rows = 0
@@ -124,6 +123,96 @@ struct Matrix<Element: Any> where Element: Equatable {
         return try grid.last(where: predicate)
     }
     
+    func enumerated() -> EnumeratedMatrix<Element> {
+        return EnumeratedMatrix(self)
+    }
+    
+    func reversed() -> Self {
+        var matrix = self
+        matrix.grid.reverse()
+        return matrix
+    }
+    
+    mutating func reverse() {
+        grid.reverse()
+    }
+    
+    // MARK: - Index
+    
+    func indexIsValid(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    
+    func indexIsValid(_ index: MatrixIndex) -> Bool {
+        return indexIsValid(row: index.row, column: index.column)
+    }
+    
+    var startIndex: MatrixIndex {
+        return MatrixIndex(row: 0, column: 0)
+    }
+    
+    var endIndex: MatrixIndex {
+        return MatrixIndex(row: rows, column: columns)
+    }
+    
+    var indices: [MatrixIndex] {
+        var indices = [MatrixIndex]()
+        
+        for row in 0..<rows {
+            for column in 0..<columns {
+                indices.append(MatrixIndex(row: row, column: column))
+            }
+        }
+        
+        return indices
+    }
+    
+    func indices(for value: Element) -> [MatrixIndex] {
+        return indices.filter({ self[$0] == value })
+    }
+
+    func firstIndex(of value: Element) -> MatrixIndex? {
+        for (offset, element) in self.enumerated() {
+            if value == element {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+
+    func firstIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
+        for (offset, element) in self.enumerated() {
+            if try predicate(element) {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+
+    func lastIndex(of value: Element) -> MatrixIndex? {
+        for (offset, element) in self.reversed().enumerated() {
+            if value == element {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+
+    func lastIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
+        for (offset, element) in self.reversed().enumerated() {
+            if try predicate(element) {
+                return offset
+            }
+        }
+        
+        return nil
+    }
+    
+    // MARK: - Vectors
+    
     var rowVectors: [[Element]] {
         var rowVectors = [[Element]]()
         
@@ -164,79 +253,22 @@ struct Matrix<Element: Any> where Element: Equatable {
         return columnVectors[column]
     }
     
-    // MARK: - Index
-    
-    func indexIsValid(row: Int, column: Int) -> Bool {
-        return row >= 0 && row < rows && column >= 0 && column < columns
-    }
-    
-    func indexIsValid(_ index: MatrixIndex) -> Bool {
-        return indexIsValid(row: index.row, column: index.column)
-    }
-    
-    var startIndex: MatrixIndex {
-        return MatrixIndex(row: 0, column: 0)
-    }
-    
-    var endIndex: MatrixIndex {
-        return MatrixIndex(row: rows, column: columns)
-    }
-    
-    var indices: [MatrixIndex] {
-        var indices = [MatrixIndex]()
-        
-        for row in 0..<rows {
-            for column in 0..<columns {
-                indices.append(MatrixIndex(row: row, column: column))
-            }
+    mutating func append(rowVector: [Element]) {
+        guard rowVector.count == columns else {
+            fatalError("Fatal error: Can't append row vector with items count differs from columns count")
         }
         
-        return indices
+        grid.append(contentsOf: rowVector)
+        rows += 1
     }
     
-    func indices(for value: Element) -> [MatrixIndex] {
-        return indices.filter({ self[$0] == value })
-    }
-    
-    func enumerated() -> EnumeratedMatrix<Element> {
-        return EnumeratedMatrix(self)
-    }
-    
-    // TODO: - RevercedIndex and RevercedMatrix
-    
-//    func reverced() -> RevercedMatrix<Element> {
-//
-//    }
-
-    func firstIndex(of value: Element) -> MatrixIndex? {
-        for (offset, element) in self.enumerated() {
-            if value == element {
-                return offset
-            }
+    mutating func append(columnVector: [Element]) {
+        for (offset, value) in columnVector.enumerated() {
+            grid.insert(value, at: (offset + 1) * columns)
         }
         
-        return nil
+        columns += 1
     }
-
-    func firstIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
-        for (offset, element) in self.enumerated() {
-            if try predicate(element) {
-                return offset
-            }
-        }
-        
-        return nil
-    }
-    
-    // TODO: - lastIndex
-
-//    func lastIndex(of value: Element) -> MatrixIndex? {
-//
-//    }
-//
-//    func lastIndex(where predicate: (Element) throws -> Bool) rethrows -> MatrixIndex? {
-//
-//    }
     
     // MARK: - Shuffle
     

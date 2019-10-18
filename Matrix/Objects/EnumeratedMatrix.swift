@@ -15,15 +15,22 @@ struct EnumeratedMatrix<Element> where Element: Equatable {
         self.matrix = matrix
     }
     
-    
+    func reversed() -> [(offset: MatrixIndex, value: Element)] {
+        var enumeratedMatrixSequence = [(offset: MatrixIndex, value: Element)]()
+        let revercedMatrix = matrix.reversed()
+        
+        for index in revercedMatrix.grid.indices {
+            enumeratedMatrixSequence.append((revercedMatrix.indices[index], revercedMatrix.grid[index]))
+        }
+        
+        return enumeratedMatrixSequence
+    }
 }
 
 extension EnumeratedMatrix: Sequence {
-    
     func makeIterator() -> EnumeratedMatrixIterator<Element> {
         return EnumeratedMatrixIterator(matrix)
     }
-    
 }
 
 struct EnumeratedMatrixIterator<Element>: IteratorProtocol where Element: Equatable {
