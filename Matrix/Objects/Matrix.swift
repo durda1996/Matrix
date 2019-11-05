@@ -137,12 +137,38 @@ struct Matrix<Element: Any> where Element: Equatable {
         grid.reverse()
     }
     
-    mutating func swapAt(i: MatrixIndex, j: MatrixIndex) {
-        let firstValue = self[i]
-        let secondValue = self[j]
+    mutating func swapAt(_ firstIndex: MatrixIndex, _ secondIndex: MatrixIndex) {
+        let firstValue = self[firstIndex]
+        let secondValue = self[secondIndex]
         
-        self[i] = secondValue
-        self[j] = firstValue
+        self[firstIndex] = secondValue
+        self[secondIndex] = firstValue
+    }
+    
+    mutating func swapRowVectorsAt(_ firstRow: Int, _ secondRow: Int) {
+        for column in 0..<columns {
+            let firstIndex = MatrixIndex(row: firstRow, column: column)
+            let secondIndex = MatrixIndex(row: secondRow, column: column)
+            
+            let firstValue = self[firstIndex]
+            let secondValue = self[secondIndex]
+            
+            self[firstIndex] = secondValue
+            self[secondIndex] = firstValue
+        }
+    }
+    
+    mutating func swapColumnVectorsAt(_ firstColumn: Int, _ secondColumn: Int) {
+        for row in 0..<rows {
+            let firstIndex = MatrixIndex(row: row, column: firstColumn)
+            let secondIndex = MatrixIndex(row: row, column: secondColumn)
+            
+            let firstValue = self[firstIndex]
+            let secondValue = self[secondIndex]
+            
+            self[firstIndex] = secondValue
+            self[secondIndex] = firstValue
+        }
     }
     
     // MARK: - Index
