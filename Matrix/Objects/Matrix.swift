@@ -23,7 +23,7 @@ struct Matrix<Element: Any> where Element: Equatable {
     
     init(rows: Int, columns: Int, repeating repeatedValue: Element) {
         guard rows >= .zero && columns >= .zero else {
-            fatalError("Fatal error: Can't construct Matrix with rows and columns count < 0")
+            fatalError("Can't construct Matrix with rows and columns count < 0")
         }
         
         if rows == .zero || columns == .zero {
@@ -115,7 +115,7 @@ struct Matrix<Element: Any> where Element: Equatable {
         return nil
     }
     
-    func first(where predicate: (Element) throws -> Bool) rethrows -> Element? {        
+    func first(where predicate: (Element) throws -> Bool) rethrows -> Element? {
         return try grid.first(where: predicate)
     }
     
@@ -137,13 +137,21 @@ struct Matrix<Element: Any> where Element: Equatable {
         grid.reverse()
     }
     
+    mutating func swapAt(i: MatrixIndex, j: MatrixIndex) {
+        let firstValue = self[i]
+        let secondValue = self[j]
+        
+        self[i] = secondValue
+        self[j] = firstValue
+    }
+    
     // MARK: - Index
     
-    func indexIsValid(row: Int, column: Int) -> Bool {
+    private func indexIsValid(row: Int, column: Int) -> Bool {
         return row >= 0 && row < rows && column >= 0 && column < columns
     }
     
-    func indexIsValid(_ index: MatrixIndex) -> Bool {
+    private func indexIsValid(_ index: MatrixIndex) -> Bool {
         return indexIsValid(row: index.row, column: index.column)
     }
     
@@ -255,7 +263,7 @@ struct Matrix<Element: Any> where Element: Equatable {
     
     mutating func append(rowVector: [Element]) {
         guard rowVector.count == columns else {
-            fatalError("Fatal error: Can't append row vector with items count differs from columns count")
+            fatalError("Can't append row vector with items count differs from columns count")
         }
         
         grid.append(contentsOf: rowVector)
@@ -268,6 +276,68 @@ struct Matrix<Element: Any> where Element: Equatable {
         }
         
         columns += 1
+    }
+    
+    // Remove
+    
+    mutating func removeFirstRowVector() {
+        guard !grid.isEmpty else {
+            fatalError("Can't remove first row vector from an empty matrix")
+        }
+        
+        removeRowVector(at: 0)
+    }
+    
+    mutating func removeLastRowVector() {
+        guard !grid.isEmpty else {
+            fatalError("Can't remove last row vector from an empty matrix")
+        }
+        
+        removeRowVector(at: rows)
+    }
+    
+    mutating func removeRowVector(at rowIndex: Int) {
+        guard rowIndex >= 0 && rowIndex < rows else {
+            fatalError("Row index out of range")
+        }
+        
+        for column in columns-1...0 {
+            grid.remove(at: (rowIndex * columns) + column)
+        }
+        
+        rows -= 1
+    }
+    
+    mutating func removeFirstColumnVector() {
+        guard !grid.isEmpty else {
+            fatalError("Can't remove first column vector from an empty matrix")
+        }
+        
+        removeColumnVector(at: 0)
+    }
+    
+    mutating func removeLastColumnVector() {
+        guard !grid.isEmpty else {
+            fatalError("Can't remove last column vector from an empty matrix")
+        }
+        
+        removeColumnVector(at: columns)
+    }
+    
+    mutating func removeColumnVector(at columnIndex: Int) {
+        guard columnIndex >= 0 && columnIndex < columns else {
+            fatalError("Column index out of range")
+        }
+        
+        for row in rows-1...0 {
+            grid.remove(at: (row * columns) + columnIndex)
+        }
+        
+        columns -= 1
+    }
+    
+    mutating func removeAll() {
+        grid.removeAll()
     }
     
     // MARK: - Shuffle
