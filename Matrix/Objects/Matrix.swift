@@ -327,7 +327,7 @@ struct Matrix<Element: Any> where Element: Equatable {
             fatalError("Row index out of range")
         }
         
-        for column in columns-1...0 {
+        for column in (0..<columns).reversed() {
             grid.remove(at: (rowIndex * columns) + column)
         }
         
@@ -355,7 +355,7 @@ struct Matrix<Element: Any> where Element: Equatable {
             fatalError("Column index out of range")
         }
         
-        for row in rows-1...0 {
+        for row in (0..<rows).reversed() {
             grid.remove(at: (row * columns) + columnIndex)
         }
         
