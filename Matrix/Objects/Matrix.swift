@@ -288,6 +288,10 @@ struct Matrix<Element: Any> where Element: Equatable {
     }
     
     mutating func append(rowVector: [Element]) {
+        if columns == 0 {
+            columns = rowVector.count
+        }
+        
         guard rowVector.count == columns else {
             fatalError("Can't append row vector with items count differs from columns count")
         }
@@ -297,6 +301,14 @@ struct Matrix<Element: Any> where Element: Equatable {
     }
     
     mutating func append(columnVector: [Element]) {
+        if rows == 0 {
+            rows = columnVector.count
+        }
+        
+        guard columnVector.count == rows else {
+            fatalError("Can't append column vector with items count differs from rows count")
+        }
+        
         for (offset, value) in columnVector.enumerated() {
             grid.insert(value, at: (offset + 1) * columns)
         }

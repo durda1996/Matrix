@@ -114,6 +114,17 @@ extension Matrix where Element: SignedNumeric {
         return matrixCopy
     }
     
+    func transposed() -> Matrix<Element> {
+        let matrixCopy = self
+        var transposedMatrix = Matrix<Element>()
+        
+        for rowVector in matrixCopy.rowVectors {
+            transposedMatrix.append(columnVector: rowVector)
+        }
+        
+        return transposedMatrix
+    }
+    
 }
 
 extension Matrix where Element: FloatingPoint {
