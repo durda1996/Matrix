@@ -16,6 +16,7 @@
 		8BA1219D23587EF600C4C3D8 /* MatrixIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA1219C23587EF600C4C3D8 /* MatrixIterator.swift */; };
 		8BA87874237B0F5B00F9EF87 /* MatrixArithmeticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA87873237B0F5B00F9EF87 /* MatrixArithmeticTests.swift */; };
 		8BBFF9E6235892AF006470E9 /* EnumeratedMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */; };
+		8BF35B00237DA86B000A2FB4 /* MatrixError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF35AFF237DA86B000A2FB4 /* MatrixError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		8BA1219C23587EF600C4C3D8 /* MatrixIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixIterator.swift; sourceTree = "<group>"; };
 		8BA87873237B0F5B00F9EF87 /* MatrixArithmeticTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixArithmeticTests.swift; sourceTree = "<group>"; };
 		8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumeratedMatrix.swift; sourceTree = "<group>"; };
+		8BF35AFF237DA86B000A2FB4 /* MatrixError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,10 +114,11 @@
 		8BA1218E2354C0A100C4C3D8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */,
 				8BA1218C2350DBDD00C4C3D8 /* Matrix.swift */,
+				8BF35AFF237DA86B000A2FB4 /* MatrixError.swift */,
 				8BA1219A2357387400C4C3D8 /* MatrixIndex.swift */,
 				8BA1219C23587EF600C4C3D8 /* MatrixIterator.swift */,
-				8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B8C9FFA2371DD4700FC838D /* MatrixArithmetic.swift in Sources */,
+				8BF35B00237DA86B000A2FB4 /* MatrixError.swift in Sources */,
 				8BBFF9E6235892AF006470E9 /* EnumeratedMatrix.swift in Sources */,
 				8BA1218D2350DBDD00C4C3D8 /* Matrix.swift in Sources */,
 				8BA1219D23587EF600C4C3D8 /* MatrixIterator.swift in Sources */,
