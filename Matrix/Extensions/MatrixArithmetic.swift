@@ -68,50 +68,25 @@ extension Matrix where Element: SignedNumeric {
         return matrixCopy
     }
     
-    func cofactors() -> Matrix<Element> {
-        var matrixCopy = self
+    func cofactors() throws -> Matrix<Element> {
+        var matrixOfMinors = try minors()
         
         for row in 0..<rows {
             let minusesInRow = (0..<columns).filter({ (row % 2 == 0) ? ($0 % 2 != 0) : ($0 % 2 == 0) })
             for minusColumn in minusesInRow {
-                let value = matrixCopy[row, minusColumn]
-                matrixCopy[row, minusColumn] = -value
+                let value = matrixOfMinors[row, minusColumn]
+                matrixOfMinors[row, minusColumn] = -value
             }
         }
         
-        return matrixCopy
+        return matrixOfMinors
     }
     
-    func adjugated() -> Matrix<Element> {
-        var matrixCopy = self
-        var topRow = 0
-        var topColumn = 0
-        var bottomRow = 0
-        var bottomColumn = 0
+    func adjugated() throws -> Matrix<Element> {
+        let matrixOfCofactors = try cofactors()
+        let transposedMatrix = matrixOfCofactors.transposed()
         
-        while topRow < rows && topColumn < columns {
-            if topColumn < columns {
-                topColumn += 1
-            }
-            
-            if topColumn == columns {
-                topRow += 1
-            }
-            
-            if bottomRow < rows {
-                bottomRow += 1
-            }
-            
-            if bottomRow == rows {
-                bottomColumn += 1
-            }
-            
-            let topIndex = MatrixIndex(row: topRow, column: topColumn)
-            let bottomIndex = MatrixIndex(row: bottomRow, column: bottomRow)
-            matrixCopy.swapAt(topIndex, bottomIndex)
-        }
-        
-        return matrixCopy
+        return transposedMatrix
     }
     
     func transposed() -> Matrix<Element> {
@@ -130,16 +105,12 @@ extension Matrix where Element: SignedNumeric {
 extension Matrix where Element: FloatingPoint {
     
     func inversed() throws -> Matrix<Element> {
-        // order matters!
-        let matrixCopy = self
-        let matrixOfMinors = try matrixCopy.minors()
-        let matrixOfCofactors = matrixOfMinors.cofactors()
-        var adjugatedMatrix = matrixOfCofactors.adjugated()
-        let determinant = try matrixCopy.determinant()
+        var adjugatedMatrix = try adjugated()
+        let matrixDeterminant = try determinant()
         
         for index in adjugatedMatrix.indices {
             let value = adjugatedMatrix[index]
-            let inversedValue = value / determinant
+            let inversedValue = value / matrixDeterminant
             adjugatedMatrix[index] = inversedValue
         }
         
@@ -151,17 +122,13 @@ extension Matrix where Element: FloatingPoint {
 extension Matrix where Element: SignedInteger {
     
     func inversed() throws -> Matrix<Float> {
-        // order matters!
-        let matrixCopy = self
-        let matrixOfMinors = try matrixCopy.minors()
-        let matrixOfCofactors = matrixOfMinors.cofactors()
-        let adjugatedMatrix = matrixOfCofactors.adjugated()
-        let determinant = try matrixCopy.determinant()
+        let adjugatedMatrix = try adjugated()
+        let matrixDeterminant = try determinant()
         var resultMatrix = Matrix<Float>(rows: adjugatedMatrix.rows, columns: adjugatedMatrix.columns, repeating: 0)
         
         for index in adjugatedMatrix.indices {
             let value = adjugatedMatrix[index]
-            let inversedValue: Float = Float(value / determinant)
+            let inversedValue: Float = Float(value / matrixDeterminant)
             resultMatrix[index] = inversedValue
         }
         

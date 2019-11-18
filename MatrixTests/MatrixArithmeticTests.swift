@@ -11,10 +11,20 @@ import XCTest
 
 class MatrixArithmeticTests: XCTestCase {
 
+    // MARK: - Determinant
+    
+    func test_determinant_1x1_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1]]).determinant())
+    }
+    
     func test_determinant_2x2() {
         let matrix = Matrix([[3, 8], [4, 6]])
         let determinant = try! matrix.determinant()
         XCTAssertEqual(determinant, -14)
+    }
+    
+    func test_determinant_3x2_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1, 2], [2, 3], [3, 4]]).determinant())
     }
     
     func test_determinant_3x3() {
@@ -23,23 +33,91 @@ class MatrixArithmeticTests: XCTestCase {
         XCTAssertEqual(determinant, -306)
     }
     
-    func test_determinant_inconsistentSize() {
-        XCTAssertThrowsError(try Matrix([[1]]).determinant())
-        XCTAssertThrowsError(try Matrix([[1, 2], [2, 3], [3, 4]]).determinant())
+    // MARK: - Minors
+    
+    func test_minors_1x1_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1]]).minors())
     }
     
-    func test_minor_2x2() {
+    func test_minors_2x2() {
         let matrix = Matrix([[3, 8], [4, 6]])
         let minorMatrix = try! matrix.minors()
         let expectedResult = Matrix([[6, 4], [8, 3]])
         XCTAssertEqual(minorMatrix, expectedResult)
     }
     
-    func test_minor_3x3() {
-        let matrix = Matrix([[3, 0, 2], [2, 0, -2], [0, 1, 1]])
+    func test_minors_3x2_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1, 2], [2, 3], [3, 4]]).minors())
+    }
+    
+    func test_minors_3x3() {
+        let matrix = Matrix([[1, 2, 1], [6, -1, 0], [-1, -2, -1]])
         let minorMatrix = try! matrix.minors()
-        let expectedResult = Matrix([[2, 2, 2], [-2, 3, 3], [0, -10, 0]])
+        let expectedResult = Matrix([[1, -6, -13], [0, 0, 0], [1, -6, -13]])
         XCTAssertEqual(minorMatrix, expectedResult)
     }
-
+    
+    // MARK: - Cofactors
+    
+    func test_cofactors_1x1_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1]]).cofactors())
+    }
+    
+    func test_cofactors_2x2() {
+        let matrix = Matrix([[3, 8], [0, 6]])
+        let cofactorsMatrix = try! matrix.cofactors()
+        let expectedResult = Matrix([[6, 0], [-8, 3]])
+        XCTAssertEqual(cofactorsMatrix, expectedResult)
+    }
+    
+    func test_cofactors_3x2_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1, 2], [2, 3], [3, 4]]).cofactors())
+    }
+    
+    func test_cofactors_3x3() {
+        let matrix = Matrix([[1, 2, 1], [6, -1, 0], [-1, -2, -1]])
+        let cofactorsMatrix = try! matrix.cofactors()
+        let expectedResult = Matrix([[1, 6, -13], [0, 0, 0], [1, 6, -13]])
+        XCTAssertEqual(cofactorsMatrix, expectedResult)
+    }
+    
+    // MARK: - Transpose
+    
+    func test_transpose_1x1() {
+        let matrix = Matrix([[3]])
+        let transposedMatrix = matrix.transposed()
+        let expectedResult = Matrix([[3]])
+        XCTAssertEqual(transposedMatrix, expectedResult)
+    }
+    
+    func test_transpose_2x2() {
+        let matrix = Matrix([[3, 8], [0, 6]])
+        let transposedMatrix = matrix.transposed()
+        let expectedResult = Matrix([[3, 0], [8, 6]])
+        XCTAssertEqual(transposedMatrix, expectedResult)
+    }
+    
+    func test_transpose_3x2() {
+        let matrix = Matrix([[1, -4], [2, 3], [2, 0]])
+        let transposedMatrix = matrix.transposed()
+        let expectedResult = Matrix([[1, 2, 2], [-4, 3, 0]])
+        XCTAssertEqual(transposedMatrix, expectedResult)
+    }
+    
+    func test_transpose_3x3() {
+        let matrix = Matrix([[2, 2, 2], [-2, 3, 3], [0, -10, 0]])
+        let transposedMatrix = matrix.transposed()
+        let expectedResult = Matrix([[2, -2, 0], [2, 3, -10], [2, 3, 0]])
+        XCTAssertEqual(transposedMatrix, expectedResult)
+    }
+    
+    // MARK: - Adjugate
+    
+    func test_adjugate_3x3() {
+        let matrix = Matrix([[-3, 2, -5], [-1, 0, -2], [3, -4, 1]])
+        let adjugatedMatrix = try! matrix.adjugated()
+        let expectedResult = Matrix([[-8, 18, -4], [-5, 12, -1], [4, -6, 2]])
+        XCTAssertEqual(adjugatedMatrix, expectedResult)
+    }
+    
 }

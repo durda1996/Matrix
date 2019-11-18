@@ -309,11 +309,11 @@ struct Matrix<Element: Any> where Element: Equatable {
             fatalError("Can't append column vector with items count differs from rows count")
         }
         
-        for (offset, value) in columnVector.enumerated() {
-            grid.insert(value, at: (offset + 1) * columns)
-        }
-        
         columns += 1
+        
+        for (offset, value) in columnVector.enumerated() {
+            grid.insert(value, at: (offset * columns) + columns - 1)
+        }
     }
     
     // Remove
@@ -407,6 +407,14 @@ extension Matrix: CustomStringConvertible where Element: LosslessStringConvertib
         })
         
         return rowVectorStrings.joined(separator: "\n")
+    }
+    
+}
+
+extension Matrix: Equatable {
+    
+    static func == (lhs: Matrix, rhs: Matrix) -> Bool {
+        return lhs.rowVectors == rhs.rowVectors
     }
     
 }
