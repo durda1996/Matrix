@@ -120,4 +120,64 @@ class MatrixArithmeticTests: XCTestCase {
         XCTAssertEqual(adjugatedMatrix, expectedResult)
     }
     
+    // MARK: - Add Operator
+    
+    func test_add_matrices_2x2() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2.1], [4, 1]])
+        let result = try! firstMatrix + secondMatrix
+        let expectedResult = Matrix([[8, 0], [6, 1]])
+        XCTAssertTrue(result == expectedResult)
+    }
+    
+    func test_add_matrices_withDifferentSizes() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2, 3.4], [4, 1, 2]])
+        XCTAssertThrowsError(try firstMatrix + secondMatrix)
+    }
+    
+    func test_add_matrices_withDifferentTypes() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2], [4, 1]])
+        let result = try! firstMatrix + secondMatrix
+        let expectedResult = Matrix([[8, 0.1], [6, 1]])
+        XCTAssertTrue(result == expectedResult)
+    }
+    
+    // MARK: - Subtract Operator
+    
+    func test_subtract_matrices_2x2() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2.1], [4, 1]])
+        let result = try! firstMatrix - secondMatrix
+        let expectedResult = Matrix([[-2, 4.2], [-2, -1]])
+        XCTAssertTrue(result == expectedResult)
+    }
+    
+    func test_subtract_matrices_differentSizes() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2, 3.4], [4, 1, 2]])
+        XCTAssertThrowsError(try firstMatrix - secondMatrix)
+    }
+    
+    func test_subtract_matrices_withDifferentTypes() {
+        let firstMatrix = Matrix([[3, 2.1], [2, 0]])
+        let secondMatrix = Matrix([[5, -2], [4, 1]])
+        let result = try! firstMatrix - secondMatrix
+        let expectedResult = Matrix([[-2, 4.1], [-2, -1]])
+        XCTAssertTrue(result == expectedResult)
+    }
+    
+    // MARK: - Multiply Operator
+    
+    func test_multiply_matrices_2x2() {
+        let firstMatrix = Matrix([[3, 2], [2, 0]])
+        let secondMatrix = Matrix([[5, -2], [4, 1]])
+        let result = try! firstMatrix * secondMatrix
+        let expectedResult = Matrix([[23, -4], [10, -4]])
+        XCTAssertTrue(result == expectedResult)
+    }
+    
 }
+
+

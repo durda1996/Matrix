@@ -38,6 +38,16 @@ struct Matrix<Element: Any> where Element: Equatable {
         self.grid = Array(repeating: repeatedValue, count: rows * columns)
     }
     
+    init(rows: Int, columns: Int, grid: [Element]) {
+        guard rows * columns == grid.count else {
+            fatalError("Matrix length must be the same as grid elements count")
+        }
+        
+        self.rows = rows
+        self.columns = columns
+        self.grid = grid
+    }
+    
     init(_ data: [[Element]]) {
         guard data.allSatisfy({ $0.count == data.first?.count }) else {
             fatalError("All rows must have the same count of items")
@@ -390,6 +400,13 @@ struct Matrix<Element: Any> where Element: Equatable {
         return matrix
     }
     
+    // MARK: - Closures
+    
+    func map<T>(_ transform: (Element) throws -> T) rethrows -> Matrix<T> {
+        let transformedGrid = try grid.map(transform)
+        return Matrix<T>(rows: rows, columns: columns, grid: transformedGrid)
+    }
+    
 }
 
 
@@ -407,14 +424,6 @@ extension Matrix: CustomStringConvertible where Element: LosslessStringConvertib
         })
         
         return rowVectorStrings.joined(separator: "\n")
-    }
-    
-}
-
-extension Matrix: Equatable {
-    
-    static func == (lhs: Matrix, rhs: Matrix) -> Bool {
-        return lhs.rowVectors == rhs.rowVectors
     }
     
 }
