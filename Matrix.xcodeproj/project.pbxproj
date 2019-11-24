@@ -17,7 +17,13 @@
 		8BA87874237B0F5B00F9EF87 /* MatrixArithmeticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA87873237B0F5B00F9EF87 /* MatrixArithmeticTests.swift */; };
 		8BBFF9E6235892AF006470E9 /* EnumeratedMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */; };
 		8BF35B00237DA86B000A2FB4 /* MatrixError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF35AFF237DA86B000A2FB4 /* MatrixError.swift */; };
-		8BF35B1C23841BDD000A2FB4 /* MatrixEqutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF35B1B23841BDD000A2FB4 /* MatrixEqutable.swift */; };
+		8BF35B1C23841BDD000A2FB4 /* MatrixEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF35B1B23841BDD000A2FB4 /* MatrixEquatable.swift */; };
+		E53F4000238A9FF800BDDA70 /* MatrixIndexComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F3FFF238A9FF800BDDA70 /* MatrixIndexComparable.swift */; };
+		E53F4002238AA04500BDDA70 /* MatrixIndexDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4001238AA04500BDDA70 /* MatrixIndexDescription.swift */; };
+		E53F4004238AC97D00BDDA70 /* MatrixDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4003238AC97D00BDDA70 /* MatrixDescription.swift */; };
+		E53F4008238AE67500BDDA70 /* MatrixAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4007238AE67500BDDA70 /* MatrixAdd.swift */; };
+		E53F400A238AE68400BDDA70 /* MatrixSubstract.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4009238AE68400BDDA70 /* MatrixSubstract.swift */; };
+		E53F400C238AE69900BDDA70 /* MatrixMultiply.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F400B238AE69900BDDA70 /* MatrixMultiply.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +50,13 @@
 		8BA87873237B0F5B00F9EF87 /* MatrixArithmeticTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixArithmeticTests.swift; sourceTree = "<group>"; };
 		8BBFF9E5235892AF006470E9 /* EnumeratedMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumeratedMatrix.swift; sourceTree = "<group>"; };
 		8BF35AFF237DA86B000A2FB4 /* MatrixError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixError.swift; sourceTree = "<group>"; };
-		8BF35B1B23841BDD000A2FB4 /* MatrixEqutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixEqutable.swift; sourceTree = "<group>"; };
+		8BF35B1B23841BDD000A2FB4 /* MatrixEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixEquatable.swift; sourceTree = "<group>"; };
+		E53F3FFF238A9FF800BDDA70 /* MatrixIndexComparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixIndexComparable.swift; sourceTree = "<group>"; };
+		E53F4001238AA04500BDDA70 /* MatrixIndexDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixIndexDescription.swift; sourceTree = "<group>"; };
+		E53F4003238AC97D00BDDA70 /* MatrixDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixDescription.swift; sourceTree = "<group>"; };
+		E53F4007238AE67500BDDA70 /* MatrixAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixAdd.swift; sourceTree = "<group>"; };
+		E53F4009238AE68400BDDA70 /* MatrixSubstract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixSubstract.swift; sourceTree = "<group>"; };
+		E53F400B238AE69900BDDA70 /* MatrixMultiply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixMultiply.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +81,10 @@
 		8B8C9FF82371DD2900FC838D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8B8C9FF92371DD4700FC838D /* MatrixArithmetic.swift */,
-				8BF35B1B23841BDD000A2FB4 /* MatrixEqutable.swift */,
+				E53F4005238AE62700BDDA70 /* Arithmetic */,
+				E53F3FFC238A9F7300BDDA70 /* Comparable */,
+				E53F3FFB238A9F6400BDDA70 /* CustomStringConvertible */,
+				E53F3FFA238A9EE300BDDA70 /* Equatable */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -124,6 +138,50 @@
 				8BA1219C23587EF600C4C3D8 /* MatrixIterator.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		E53F3FFA238A9EE300BDDA70 /* Equatable */ = {
+			isa = PBXGroup;
+			children = (
+				8BF35B1B23841BDD000A2FB4 /* MatrixEquatable.swift */,
+			);
+			path = Equatable;
+			sourceTree = "<group>";
+		};
+		E53F3FFB238A9F6400BDDA70 /* CustomStringConvertible */ = {
+			isa = PBXGroup;
+			children = (
+				E53F4001238AA04500BDDA70 /* MatrixIndexDescription.swift */,
+				E53F4003238AC97D00BDDA70 /* MatrixDescription.swift */,
+			);
+			path = CustomStringConvertible;
+			sourceTree = "<group>";
+		};
+		E53F3FFC238A9F7300BDDA70 /* Comparable */ = {
+			isa = PBXGroup;
+			children = (
+				E53F3FFF238A9FF800BDDA70 /* MatrixIndexComparable.swift */,
+			);
+			path = Comparable;
+			sourceTree = "<group>";
+		};
+		E53F4005238AE62700BDDA70 /* Arithmetic */ = {
+			isa = PBXGroup;
+			children = (
+				E53F4006238AE64C00BDDA70 /* BasicOperators */,
+				8B8C9FF92371DD4700FC838D /* MatrixArithmetic.swift */,
+			);
+			path = Arithmetic;
+			sourceTree = "<group>";
+		};
+		E53F4006238AE64C00BDDA70 /* BasicOperators */ = {
+			isa = PBXGroup;
+			children = (
+				E53F4007238AE67500BDDA70 /* MatrixAdd.swift */,
+				E53F4009238AE68400BDDA70 /* MatrixSubstract.swift */,
+				E53F400B238AE69900BDDA70 /* MatrixMultiply.swift */,
+			);
+			path = BasicOperators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,12 +295,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B8C9FFA2371DD4700FC838D /* MatrixArithmetic.swift in Sources */,
+				E53F400C238AE69900BDDA70 /* MatrixMultiply.swift in Sources */,
 				8BF35B00237DA86B000A2FB4 /* MatrixError.swift in Sources */,
 				8BBFF9E6235892AF006470E9 /* EnumeratedMatrix.swift in Sources */,
+				E53F4004238AC97D00BDDA70 /* MatrixDescription.swift in Sources */,
+				E53F4000238A9FF800BDDA70 /* MatrixIndexComparable.swift in Sources */,
+				E53F4002238AA04500BDDA70 /* MatrixIndexDescription.swift in Sources */,
 				8BA1218D2350DBDD00C4C3D8 /* Matrix.swift in Sources */,
 				8BA1219D23587EF600C4C3D8 /* MatrixIterator.swift in Sources */,
+				E53F400A238AE68400BDDA70 /* MatrixSubstract.swift in Sources */,
 				8BA1219B2357387400C4C3D8 /* MatrixIndex.swift in Sources */,
-				8BF35B1C23841BDD000A2FB4 /* MatrixEqutable.swift in Sources */,
+				8BF35B1C23841BDD000A2FB4 /* MatrixEquatable.swift in Sources */,
+				E53F4008238AE67500BDDA70 /* MatrixAdd.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

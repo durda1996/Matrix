@@ -8,12 +8,6 @@
 
 import Foundation
 
-extension Matrix: Sequence {
-    func makeIterator() -> MatrixIterator<Element> {
-        return MatrixIterator(grid)
-    }
-}
-
 struct MatrixIterator<Element>: IteratorProtocol {
     private let values: [Element]
     private var index = 0
@@ -31,5 +25,11 @@ struct MatrixIterator<Element>: IteratorProtocol {
         index += 1
         
         return currentValue
+    }
+}
+
+extension Matrix: Sequence {
+    func makeIterator() -> MatrixIterator<Element> {
+        return MatrixIterator(grid)
     }
 }

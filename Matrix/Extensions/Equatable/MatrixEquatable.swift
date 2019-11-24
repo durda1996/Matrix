@@ -1,5 +1,5 @@
 //
-//  MatrixEqutable.swift
+//  MatrixEquatable.swift
 //  Matrix
 //
 //  Created by Dmytro Durda on 19/11/2019.

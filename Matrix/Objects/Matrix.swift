@@ -408,22 +408,3 @@ struct Matrix<Element: Any> where Element: Equatable {
     }
     
 }
-
-
-// MARK: - Logs
-
-extension Matrix: CustomStringConvertible where Element: LosslessStringConvertible {
-    
-    var description: String {
-        let rowVectorStrings = rowVectors.map({ rowVector -> String in
-            var rowVectorString = "["
-            rowVectorString.append(rowVector.map({ String($0) }).joined(separator: ", "))
-            rowVectorString.append("]")
-
-            return rowVectorString
-        })
-        
-        return rowVectorStrings.joined(separator: "\n")
-    }
-    
-}
