@@ -136,7 +136,7 @@ class MatrixArithmeticTests: XCTestCase {
         XCTAssertThrowsError(try firstMatrix + secondMatrix)
     }
     
-    func test_add_matrices_withDifferentTypes() {
+    func test_add_matrices_differentTypes() {
         let firstMatrix = Matrix([[3, 2.1], [2, 0]])
         let secondMatrix = Matrix([[5, -2], [4, 1]])
         let result = try! firstMatrix + secondMatrix
@@ -200,6 +200,36 @@ class MatrixArithmeticTests: XCTestCase {
         XCTAssertThrowsError(try firstMatrix * secondMatrix)
     }
     
+    // MARK: - Power Operator
+    
+    func test_power_1x1() {
+        XCTAssertEqual(try Matrix([[2]]) ^ 2, Matrix([[4]]))
+    }
+    
+    func test_power_2x2() {
+        let matrix = Matrix([[1, 2], [3, 4]])
+        let matrixPower = try! matrix ^ 2
+        let expectedResult = Matrix([[7, 10], [15, 22]])
+        XCTAssertEqual(matrixPower, expectedResult)
+    }
+    
+    func test_3_power_2x2() {
+        let matrix = Matrix([[1, 2], [3, 4]])
+        let matrixPower = try! matrix ^ 3
+        let expectedResult = Matrix([[37, 54], [81, 118]])
+        XCTAssertEqual(matrixPower, expectedResult)
+    }
+    
+    func test_power_3x2_inconsistentSize() {
+        XCTAssertThrowsError(try Matrix([[1, 2], [2, 3], [3, 4]]) ^ 2)
+    }
+    
+    func test_power_3x3() {
+        let matrix = Matrix([[1, 2, 1], [6, -1, 0], [-1, -2, -1]])
+        let matrixPower = try! matrix ^ 2
+        let expectedResult = Matrix([[12, -2, 0], [0, 13, 6], [-12, 2, 0]])
+        XCTAssertEqual(matrixPower, expectedResult)
+    }
 }
 
 
