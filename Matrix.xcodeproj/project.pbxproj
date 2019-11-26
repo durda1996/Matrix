@@ -81,10 +81,8 @@
 		8B8C9FF82371DD2900FC838D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				8BF35B28238D41D0000A2FB4 /* Protocols */,
 				E53F4005238AE62700BDDA70 /* Arithmetic */,
-				E53F3FFC238A9F7300BDDA70 /* Comparable */,
-				E53F3FFB238A9F6400BDDA70 /* CustomStringConvertible */,
-				E53F3FFA238A9EE300BDDA70 /* Equatable */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -138,6 +136,16 @@
 				8BA1219C23587EF600C4C3D8 /* MatrixIterator.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		8BF35B28238D41D0000A2FB4 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E53F3FFC238A9F7300BDDA70 /* Comparable */,
+				E53F3FFB238A9F6400BDDA70 /* CustomStringConvertible */,
+				E53F3FFA238A9EE300BDDA70 /* Equatable */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		E53F3FFA238A9EE300BDDA70 /* Equatable */ = {

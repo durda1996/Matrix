@@ -32,13 +32,13 @@ extension Matrix where Element: FloatingPoint {
     
     // Comparing Matrices with the Floating type
     
-    static func == (lhs: Matrix<Element>, rhs: Matrix<Element>) -> Bool {
+    static func ~= (lhs: Matrix<Element>, rhs: Matrix<Element>) -> Bool {
         guard lhs.rows == rhs.rows && lhs.columns == rhs.columns else {
             return false
         }
         
         for (lhsElement, rhsElement) in zip(lhs, rhs) {
-            if abs(lhsElement - rhsElement) > Element.ulpOfOne {
+            if lhsElement < rhsElement.nextDown && lhsElement > rhsElement.nextUp {
                 return false
             }
         }
