@@ -27,6 +27,32 @@ struct EnumeratedMatrix<Element: Equatable> {
         
         return enumeratedMatrixSequence
     }
+    
+    func map<T>(_ transform: (EnumeratedMatrixResult) throws -> T) rethrows -> Matrix<T> {
+        var resultGrid = [T]()
+        
+        for (offset, value) in self {
+            resultGrid.append(try transform((offset, value)))
+        }
+        
+        return Matrix<T>(rows: matrix.rows, columns: matrix.columns, grid: resultGrid)
+    }
+    
+    func allSatisfy(_ predicate: (EnumeratedMatrixResult) throws -> Bool) rethrows -> Bool {
+        for (offset, value) in self {
+            if try !predicate((offset, value)) {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func forEach(_ body: (EnumeratedMatrixResult) throws -> Void) rethrows {
+        for (offset, value) in self {
+            try body((offset, value))
+        }
+    }
 }
 
 extension EnumeratedMatrix: Sequence {
