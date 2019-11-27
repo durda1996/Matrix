@@ -9,7 +9,7 @@
 import Foundation
 
 extension MatrixIndex: Comparable {
-    static func < (lhs: MatrixIndex, rhs: MatrixIndex) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         if lhs.row < rhs.row {
             return true
         }
@@ -21,7 +21,7 @@ extension MatrixIndex: Comparable {
         return false
     }
 
-    static func > (lhs: MatrixIndex, rhs: MatrixIndex) -> Bool {
+    static func > (lhs: Self, rhs: Self) -> Bool {
         if lhs.row > rhs.row {
             return true
         }
@@ -33,7 +33,7 @@ extension MatrixIndex: Comparable {
         return false
     }
     
-    static func == (lhs: MatrixIndex, rhs: MatrixIndex) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.row == rhs.row && lhs.column == rhs.column
     }
     

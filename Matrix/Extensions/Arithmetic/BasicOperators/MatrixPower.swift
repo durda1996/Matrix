@@ -10,7 +10,7 @@ import Foundation
 
 extension Matrix where Element: SignedNumeric {
     
-    static func ^ (lhs: Matrix<Element>, rhs: Int) throws -> Matrix<Element> {
+    static func ^ (lhs: Self, rhs: Int) throws -> Self {
         var result = lhs
         
         for _ in 1..<rhs {

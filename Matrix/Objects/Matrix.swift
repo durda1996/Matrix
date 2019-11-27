@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Matrix<Element: Any> where Element: Equatable {
+struct Matrix<Element: Equatable> {
     private(set) var rows: Int
     private(set) var columns: Int
     private(set) var grid: [Element]
@@ -139,7 +139,7 @@ struct Matrix<Element: Any> where Element: Equatable {
     
     func reversed() -> Self {
         var matrix = self
-        matrix.grid.reverse()
+        matrix.reverse()
         return matrix
     }
     
@@ -394,9 +394,19 @@ struct Matrix<Element: Any> where Element: Equatable {
         grid.shuffle()
     }
     
+    mutating func shuffle<T>(using generator: inout T) where T : RandomNumberGenerator {
+        grid.shuffle(using: &generator)
+    }
+    
     func shufled() -> Self {
         var matrix = self
         matrix.shuffle()
+        return matrix
+    }
+    
+    func shuffled<T>(using generator: inout T) -> Self where T : RandomNumberGenerator {
+        var matrix = self
+        matrix.shuffle(using: &generator)
         return matrix
     }
     
@@ -405,6 +415,14 @@ struct Matrix<Element: Any> where Element: Equatable {
     func map<T>(_ transform: (Element) throws -> T) rethrows -> Matrix<T> {
         let transformedGrid = try grid.map(transform)
         return Matrix<T>(rows: rows, columns: columns, grid: transformedGrid)
+    }
+    
+    func allSatisfy(_ predicate: (Element) throws -> Bool) rethrows -> Bool {
+        return try grid.allSatisfy(predicate)
+    }
+    
+    func forEach(_ body: (Element) throws -> Void) rethrows {
+        return try grid.forEach(body)
     }
     
 }

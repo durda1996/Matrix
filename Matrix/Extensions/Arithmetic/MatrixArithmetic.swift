@@ -37,14 +37,14 @@ extension Matrix where Element: SignedNumeric {
         return determinant
     }
     
-    func minor(row: Int, column: Int) -> Matrix<Element> {
+    func minor(row: Int, column: Int) -> Self {
         var matrixCopy = self
         matrixCopy.removeRowVector(at: row)
         matrixCopy.removeColumnVector(at: column)
         return matrixCopy
     }
     
-    func minors() throws -> Matrix<Element> {
+    func minors() throws -> Self {
         guard rows >= 2, columns >= 2, rows == columns else {
             throw MatrixError.inconsistentSize(description: "Rows and columns count MUST be the same and larger than 2")
         }
@@ -68,7 +68,7 @@ extension Matrix where Element: SignedNumeric {
         return matrixCopy
     }
     
-    func cofactors() throws -> Matrix<Element> {
+    func cofactors() throws -> Self {
         var matrixOfMinors = try minors()
         
         for row in 0..<rows {
@@ -82,14 +82,14 @@ extension Matrix where Element: SignedNumeric {
         return matrixOfMinors
     }
     
-    func adjugated() throws -> Matrix<Element> {
+    func adjugated() throws -> Self {
         let matrixOfCofactors = try cofactors()
         let transposedMatrix = matrixOfCofactors.transposed()
         
         return transposedMatrix
     }
     
-    func transposed() -> Matrix<Element> {
+    func transposed() -> Self {
         let matrixCopy = self
         var transposedMatrix = Matrix<Element>()
         
@@ -104,7 +104,7 @@ extension Matrix where Element: SignedNumeric {
 
 extension Matrix where Element: FloatingPoint {
     
-    func inversed() throws -> Matrix<Element> {
+    func inversed() throws -> Self {
         var adjugatedMatrix = try adjugated()
         let matrixDeterminant = try determinant()
         

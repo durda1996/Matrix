@@ -10,7 +10,7 @@ import Foundation
 
 extension Matrix where Element: SignedNumeric {
     
-    static func * (lhs: Matrix<Element>, rhs: Element) -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Element) -> Self {
         var resultMatrix = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, repeating: 0)
         
         for index in resultMatrix.indices {
@@ -20,11 +20,11 @@ extension Matrix where Element: SignedNumeric {
         return resultMatrix
     }
     
-    static func * (lhs: Element, rhs: Matrix<Element>) -> Matrix<Element> {
+    static func * (lhs: Element, rhs: Self) -> Self {
         return rhs * lhs
     }
     
-    static func * (lhs: Matrix<Element>, rhs: Matrix<Element>) throws -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Self) throws -> Self {
         guard lhs.columns == rhs.rows else {
             throw MatrixError.inconsistentSize(description: "The number of columns in the first matrix must be equal to the number of rows in the second matrix.")
         }
@@ -50,11 +50,11 @@ extension Matrix where Element: SignedNumeric {
 
 extension Matrix where Element: FloatingPoint {
     
-    static func * (lhs: Matrix<Element>, rhs: Int) -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Int) -> Self {
         return lhs * Element(rhs)
     }
     
-    static func * (lhs: Int, rhs: Matrix<Element>) -> Matrix<Element> {
+    static func * (lhs: Int, rhs: Self) -> Self {
         return Element(lhs) * rhs
     }
     
@@ -62,12 +62,12 @@ extension Matrix where Element: FloatingPoint {
 
 extension Matrix where Element == Float {
     
-    static func * (lhs: Matrix<Element>, rhs: Matrix<Int>) throws -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Matrix<Int>) throws -> Self {
         let rhsFloat = rhs.map({ Element($0) })
         return try lhs * rhsFloat
     }
     
-    static func * (lhs: Matrix<Int>, rhs: Matrix<Element>) throws -> Matrix<Element> {
+    static func * (lhs: Matrix<Int>, rhs: Self) throws -> Self {
         let lhsFloat = lhs.map({ Element($0) })
         return try lhsFloat * rhs
     }
@@ -76,22 +76,22 @@ extension Matrix where Element == Float {
 
 extension Matrix where Element == Double {
     
-    static func * (lhs: Matrix<Element>, rhs: Matrix<Int>) throws -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Matrix<Int>) throws -> Self {
         let rhsFloat = rhs.map({ Element($0) })
         return try lhs * rhsFloat
     }
     
-    static func * (lhs: Matrix<Int>, rhs: Matrix<Element>) throws -> Matrix<Element> {
+    static func * (lhs: Matrix<Int>, rhs: Self) throws -> Self {
         let lhsFloat = lhs.map({ Element($0) })
         return try lhsFloat * rhs
     }
     
-    static func * (lhs: Matrix<Element>, rhs: Matrix<Float>) throws -> Matrix<Element> {
+    static func * (lhs: Self, rhs: Matrix<Float>) throws -> Self {
         let rhsFloat = rhs.map({ Element($0) })
         return try lhs * rhsFloat
     }
     
-    static func * (lhs: Matrix<Float>, rhs: Matrix<Element>) throws -> Matrix<Element> {
+    static func * (lhs: Matrix<Float>, rhs: Self) throws -> Self {
         let lhsFloat = lhs.map({ Element($0) })
         return try lhsFloat * rhs
     }
