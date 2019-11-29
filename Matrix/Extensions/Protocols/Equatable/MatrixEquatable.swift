@@ -38,7 +38,12 @@ extension Matrix where Element: FloatingPoint {
         }
         
         for (lhsElement, rhsElement) in zip(lhs, rhs) {
-            if lhsElement < rhsElement.nextDown && lhsElement > rhsElement.nextUp {
+            let preciseNum = 10
+            let preciseOffset = Element(preciseNum * 10)
+            let precisedLhsElement = round(preciseOffset * lhsElement) / preciseOffset
+            let precisedRhsElement = round(preciseOffset * rhsElement) / preciseOffset
+            
+            if precisedLhsElement != precisedRhsElement {
                 return false
             }
         }

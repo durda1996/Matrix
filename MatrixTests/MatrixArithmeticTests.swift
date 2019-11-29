@@ -120,6 +120,19 @@ class MatrixArithmeticTests: XCTestCase {
         XCTAssertEqual(adjugatedMatrix, expectedResult)
     }
     
+    // MARK: - Adjugate
+    
+    func test_inverse_2x2_zeroDeterminant() {
+        XCTAssertThrowsError(try Matrix([[3, 4], [6, 8]]).inversed())
+    }
+    
+    func test_inverse_3x3() {
+        let matrix = Matrix([[3, 0, 2], [2, 0, -2], [0, 1, 1]])
+        let inversedMatrix: Matrix<Double> = try! matrix.inversed()
+        let expectedResult = Matrix([[0.2, 0.2, 0], [-0.2, 0.3, 1], [0.2, -0.3, 0]])
+        XCTAssertTrue(inversedMatrix ~= expectedResult)
+    }
+    
     // MARK: - Add Operator
     
     func test_add_matrices_2x2() {

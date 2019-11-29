@@ -10,11 +10,14 @@ import Foundation
 
 enum MatrixError: Error {
     case inconsistentSize(description: String)
+    case calculationError(description: String)
     
     var localizedDescription: String {
         switch self {
         case .inconsistentSize(let description):
             return "Inconsistent matrix size: \(description)"
+        case .calculationError(let description):
+            return "Calculation Error: \(description)"
         }
     }
 }

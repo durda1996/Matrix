@@ -11,7 +11,7 @@ import Foundation
 extension Matrix where Element: SignedNumeric {
     
     func determinant() throws -> Element {
-        guard rows >= 2, columns >= 2, rows == columns else {
+        guard rows >= 2, rows == columns else {
             throw MatrixError.inconsistentSize(description: "Rows and columns count MUST be the same and larger than 2")
         }
         
@@ -45,7 +45,7 @@ extension Matrix where Element: SignedNumeric {
     }
     
     func minors() throws -> Self {
-        guard rows >= 2, columns >= 2, rows == columns else {
+        guard rows >= 2, rows == columns else {
             throw MatrixError.inconsistentSize(description: "Rows and columns count MUST be the same and larger than 2")
         }
         
@@ -105,30 +105,41 @@ extension Matrix where Element: SignedNumeric {
 extension Matrix where Element: FloatingPoint {
     
     func inversed() throws -> Self {
-        var adjugatedMatrix = try adjugated()
+        let adjugatedMatrix = try adjugated()
         let matrixDeterminant = try determinant()
+        
+        guard matrixDeterminant != .zero else {
+            throw MatrixError.calculationError(description: "zero determinant has been occurred. Matrix inverse cannot be calculated.")
+        }
+        
+        var resultMatrix = Matrix<Element>(rows: adjugatedMatrix.rows, columns: adjugatedMatrix.columns, repeating: 0)
         
         for index in adjugatedMatrix.indices {
             let value = adjugatedMatrix[index]
             let inversedValue = value / matrixDeterminant
-            adjugatedMatrix[index] = inversedValue
+            resultMatrix[index] = inversedValue
         }
         
-        return adjugatedMatrix
+        return resultMatrix
     }
     
 }
 
 extension Matrix where Element: SignedInteger {
     
-    func inversed() throws -> Matrix<Float> {
+    func inversed<T: FloatingPoint>() throws -> Matrix<T> {
         let adjugatedMatrix = try adjugated()
         let matrixDeterminant = try determinant()
-        var resultMatrix = Matrix<Float>(rows: adjugatedMatrix.rows, columns: adjugatedMatrix.columns, repeating: 0)
+        
+        guard matrixDeterminant != .zero else {
+            throw MatrixError.calculationError(description: "zero determinant has been occurred. Matrix inverse cannot be calculated.")
+        }
+        
+        var resultMatrix = Matrix<T>(rows: adjugatedMatrix.rows, columns: adjugatedMatrix.columns, repeating: 0)
         
         for index in adjugatedMatrix.indices {
-            let value = adjugatedMatrix[index]
-            let inversedValue: Float = Float(value / matrixDeterminant)
+            let value = T(adjugatedMatrix[index])
+            let inversedValue = value / T(matrixDeterminant)
             resultMatrix[index] = inversedValue
         }
         
