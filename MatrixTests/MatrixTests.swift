@@ -57,10 +57,6 @@ class MatrixTests: XCTestCase {
         
         XCTAssertEqual(matrix.rowVectors, [[1, 2], [3, 4]])
         XCTAssertEqual(matrix.columnVectors, [[1, 3], [2, 4]])
-        
-        for (offset, value) in matrix.enumerated() {
-            print("\(offset): \(value)")
-        }
     }
     
     func test_compareIndices() {

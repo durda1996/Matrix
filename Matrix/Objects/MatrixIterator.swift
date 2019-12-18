@@ -8,28 +8,28 @@
 
 import Foundation
 
-extension Matrix: Sequence {
-    func makeIterator() -> MatrixIterator<Element> {
-        return MatrixIterator(grid)
-    }
-}
-
-struct MatrixIterator<Element>: IteratorProtocol {
-    private let values: [Element]
+struct MatrixIterator<Element: Equatable>: IteratorProtocol {
+    private let matrix: Matrix<Element>
     private var index = 0
     
-    init(_ values: [Element]) {
-        self.values = values
+    init(_ matrix: Matrix<Element>) {
+        self.matrix = matrix
     }
     
     mutating func next() -> Element? {
-        guard index < values.count else {
+        guard index < matrix.grid.count else {
             return nil
         }
         
-        let currentValue = values[index]
+        let currentValue = matrix.grid[index]
         index += 1
         
         return currentValue
+    }
+}
+
+extension Matrix: Sequence {
+    func makeIterator() -> MatrixIterator<Element> {
+        return MatrixIterator(self)
     }
 }

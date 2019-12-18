@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Matrix<Element: Any> where Element: Equatable {
+struct Matrix<Element: Equatable> {
     private(set) var rows: Int
     private(set) var columns: Int
     private(set) var grid: [Element]
@@ -36,6 +36,16 @@ struct Matrix<Element: Any> where Element: Equatable {
         self.rows = rows
         self.columns = columns
         self.grid = Array(repeating: repeatedValue, count: rows * columns)
+    }
+    
+    init(rows: Int, columns: Int, grid: [Element]) {
+        guard rows * columns == grid.count else {
+            fatalError("Matrix length must be the same as grid elements count")
+        }
+        
+        self.rows = rows
+        self.columns = columns
+        self.grid = grid
     }
     
     init(_ data: [[Element]]) {
@@ -129,7 +139,7 @@ struct Matrix<Element: Any> where Element: Equatable {
     
     func reversed() -> Self {
         var matrix = self
-        matrix.grid.reverse()
+        matrix.reverse()
         return matrix
     }
     
@@ -288,6 +298,10 @@ struct Matrix<Element: Any> where Element: Equatable {
     }
     
     mutating func append(rowVector: [Element]) {
+        if columns == 0 {
+            columns = rowVector.count
+        }
+        
         guard rowVector.count == columns else {
             fatalError("Can't append row vector with items count differs from columns count")
         }
@@ -297,11 +311,19 @@ struct Matrix<Element: Any> where Element: Equatable {
     }
     
     mutating func append(columnVector: [Element]) {
-        for (offset, value) in columnVector.enumerated() {
-            grid.insert(value, at: (offset + 1) * columns)
+        if rows == 0 {
+            rows = columnVector.count
+        }
+        
+        guard columnVector.count == rows else {
+            fatalError("Can't append column vector with items count differs from rows count")
         }
         
         columns += 1
+        
+        for (offset, value) in columnVector.enumerated() {
+            grid.insert(value, at: (offset * columns) + columns - 1)
+        }
     }
     
     // Remove
@@ -327,7 +349,7 @@ struct Matrix<Element: Any> where Element: Equatable {
             fatalError("Row index out of range")
         }
         
-        for column in columns-1...0 {
+        for column in (0..<columns).reversed() {
             grid.remove(at: (rowIndex * columns) + column)
         }
         
@@ -355,7 +377,7 @@ struct Matrix<Element: Any> where Element: Equatable {
             fatalError("Column index out of range")
         }
         
-        for row in rows-1...0 {
+        for row in (0..<rows).reversed() {
             grid.remove(at: (row * columns) + columnIndex)
         }
         
@@ -372,29 +394,35 @@ struct Matrix<Element: Any> where Element: Equatable {
         grid.shuffle()
     }
     
+    mutating func shuffle<T>(using generator: inout T) where T : RandomNumberGenerator {
+        grid.shuffle(using: &generator)
+    }
+    
     func shufled() -> Self {
         var matrix = self
         matrix.shuffle()
         return matrix
     }
     
-}
-
-
-// MARK: - Logs
-
-extension Matrix: CustomStringConvertible where Element: LosslessStringConvertible {
+    func shuffled<T>(using generator: inout T) -> Self where T : RandomNumberGenerator {
+        var matrix = self
+        matrix.shuffle(using: &generator)
+        return matrix
+    }
     
-    var description: String {
-        let rowVectorStrings = rowVectors.map({ rowVector -> String in
-            var rowVectorString = "["
-            rowVectorString.append(rowVector.map({ String($0) }).joined(separator: ", "))
-            rowVectorString.append("]")
-
-            return rowVectorString
-        })
-        
-        return rowVectorStrings.joined(separator: "\n")
+    // MARK: - Closures
+    
+    func map<T>(_ transform: (Element) throws -> T) rethrows -> Matrix<T> {
+        let transformedGrid = try grid.map(transform)
+        return Matrix<T>(rows: rows, columns: columns, grid: transformedGrid)
+    }
+    
+    func allSatisfy(_ predicate: (Element) throws -> Bool) rethrows -> Bool {
+        return try grid.allSatisfy(predicate)
+    }
+    
+    func forEach(_ body: (Element) throws -> Void) rethrows {
+        return try grid.forEach(body)
     }
     
 }
