@@ -410,19 +410,4 @@ struct Matrix<Element: Equatable> {
         return matrix
     }
     
-    // MARK: - Closures
-    
-    func map<T>(_ transform: (Element) throws -> T) rethrows -> Matrix<T> {
-        let transformedGrid = try grid.map(transform)
-        return Matrix<T>(rows: rows, columns: columns, grid: transformedGrid)
-    }
-    
-    func allSatisfy(_ predicate: (Element) throws -> Bool) rethrows -> Bool {
-        return try grid.allSatisfy(predicate)
-    }
-    
-    func forEach(_ body: (Element) throws -> Void) rethrows {
-        return try grid.forEach(body)
-    }
-    
 }

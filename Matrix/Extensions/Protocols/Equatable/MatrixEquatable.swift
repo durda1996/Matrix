@@ -58,12 +58,12 @@ extension Matrix where Element == Float {
     // Comparing Matrices with Int and Float types
 
     static func == (lhs: Self, rhs: Matrix<Int>) -> Bool {
-        let rhsFloat = rhs.map({ Element($0) })
+        let rhsFloat = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
         return lhs == rhsFloat
     }
 
     static func == (lhs: Matrix<Int>, rhs: Self) -> Bool {
-        let lhsFloat = lhs.map({ Element($0) })
+        let lhsFloat = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
         return lhsFloat == rhs
     }
     
@@ -74,25 +74,25 @@ extension Matrix where Element == Double {
     // Comparing Matrices with Int and Double types
 
     static func == (lhs: Self, rhs: Matrix<Int>) -> Bool {
-        let rhsFloat = rhs.map({ Element($0) })
-        return lhs == rhsFloat
+        let rhsDouble = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
+        return lhs == rhsDouble
     }
 
     static func == (lhs: Matrix<Int>, rhs: Self) -> Bool {
-        let lhsFloat = lhs.map({ Element($0) })
-        return lhsFloat == rhs
+        let lhsDouble = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
+        return lhsDouble == rhs
     }
     
     // Comparing Matrices with Float and Double types
 
     static func == (lhs: Self, rhs: Matrix<Float>) -> Bool {
-        let rhsFloat = rhs.map({ Element($0) })
-        return lhs == rhsFloat
+        let rhsDouble = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
+        return lhs == rhsDouble
     }
 
     static func == (lhs: Matrix<Float>, rhs: Self) -> Bool {
-        let lhsFloat = lhs.map({ Element($0) })
-        return lhsFloat == rhs
+        let lhsDouble = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
+        return lhsDouble == rhs
     }
     
 }

@@ -29,12 +29,12 @@ extension Matrix where Element: SignedNumeric {
 extension Matrix where Element == Float {
     
     static func + (lhs: Self, rhs: Matrix<Int>) throws -> Self {
-        let rhsFloat = rhs.map({ Element($0) })
+        let rhsFloat = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
         return try lhs + rhsFloat
     }
     
     static func + (lhs: Matrix<Int>, rhs: Self) throws -> Self {
-        let lhsFloat = lhs.map({ Element($0) })
+        let lhsFloat = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
         return try lhsFloat + rhs
     }
 
@@ -43,23 +43,23 @@ extension Matrix where Element == Float {
 extension Matrix where Element == Double {
     
     static func + (lhs: Self, rhs: Matrix<Int>) throws -> Self {
-        let rhsFloat = rhs.map({ Element($0) })
-        return try lhs + rhsFloat
+        let rhsDouble = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
+        return try lhs + rhsDouble
     }
     
     static func + (lhs: Matrix<Int>, rhs: Self) throws -> Self {
-        let lhsFloat = lhs.map({ Element($0) })
-        return try lhsFloat + rhs
+        let lhsDouble = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
+        return try lhsDouble + rhs
     }
     
     static func + (lhs: Self, rhs: Matrix<Float>) throws -> Self {
-        let rhsFloat = rhs.map({ Element($0) })
-        return try lhs + rhsFloat
+        let rhsDouble = Matrix<Element>(rows: rhs.rows, columns: rhs.columns, grid: rhs.map{Element($0)})
+        return try lhs + rhsDouble
     }
     
     static func + (lhs: Matrix<Float>, rhs: Self) throws -> Self {
-        let lhsFloat = lhs.map({ Element($0) })
-        return try lhsFloat + rhs
+        let lhsDouble = Matrix<Element>(rows: lhs.rows, columns: lhs.columns, grid: lhs.map{Element($0)})
+        return try lhsDouble + rhs
     }
 
 }
